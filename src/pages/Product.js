@@ -3,7 +3,7 @@ import axios from "axios"
 import { Link, useParams } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Button } from "react-bootstrap";
 
-const Product = ({ match }) => {
+const Product = () => {
   const [product, setProduct] = useState({})
 
   const { id } = useParams();
@@ -16,7 +16,7 @@ const Product = ({ match }) => {
       setProduct(response.data)
     }
     sendRequest()
-  }, [match, id])
+  }, [id])
   
   if (!product) return null;
   return (
