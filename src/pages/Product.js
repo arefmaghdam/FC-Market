@@ -1,23 +1,33 @@
-import React, {useEffect, useState} from "react";
-import axios from "axios"
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCurrentProduct } from "../redux/selectedProductSlice";
 
 const Product = () => {
-  const [product, setProduct] = useState({})
+  const [product, setProduct] = useState({});
 
   const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const sendRequest = async () => {
       const response = await axios.get(
         `http://localhost:8000/api/products/${id}`
-      )
-      setProduct(response.data)
-    }
-    sendRequest()
-  }, [id])
-  
+      );
+      setProduct(response.data);
+    };
+    sendRequest();
+  }, [id]);
+
+  const addToCartHandler = () => {
+    dispatch(setCurrentProduct(product));
+    navigate(`../cart/${id}`);
+  };
+
   if (!product) return null;
   return (
     <div>
@@ -40,7 +50,11 @@ const Product = () => {
         <Col md={3}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <Button className="btn-block" type="button">
+              <Button
+                onClick={addToCartHandler}
+                className="btn-block"
+                type="button"
+              >
                 افزودن به سبد خرید
               </Button>
             </ListGroup.Item>
