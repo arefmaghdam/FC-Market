@@ -12,6 +12,7 @@ const Product = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const productDetail = useSelector((state) => state.productDetail);
+  const cartItems = useSelector((state) => state.cartItems);
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -23,9 +24,32 @@ const Product = () => {
     sendRequest();
   }, [id]);
 
+  // const addToCartHandler = () => {
+  //   const existProductInCart = cartItems.find(
+  //     (item) => item.id === productDetail.id
+  //   );
+  //   if (!existProductInCart) {
+  //     dispatch(setCartItems(productDetail));
+  //     localStorage.setItem("cartItems", JSON.stringify([...JSON.parse(localStorage.getItem("cartItems")), productDetail]))
+  //     navigate(`../cart/${id}`);
+  //   } else {
+  //     alert("محصول مورد نظر قبلا انتخاب شده است");
+  //     navigate("../");
+  //   }
+  // };
   const addToCartHandler = () => {
-    dispatch(setCartItems(productDetail));
-    navigate(`../cart/${id}`);
+    const existProductInCart = cartItems.find(
+      (item) => item._id === productDetail._id
+    );
+    if (!existProductInCart) {
+      dispatch(setCartItems(productDetail));
+      const updatedCartItems = [...cartItems, productDetail];
+      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+      navigate(`../cart/${id}`);
+    } else {
+      alert("محصول مورد نظر قبلا انتخاب شده است");
+      navigate("../");
+    }
   };
 
   return (
