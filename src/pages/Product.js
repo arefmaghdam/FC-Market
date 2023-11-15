@@ -23,20 +23,7 @@ const Product = () => {
     };
     sendRequest();
   }, [id]);
-
-  // const addToCartHandler = () => {
-  //   const existProductInCart = cartItems.find(
-  //     (item) => item.id === productDetail.id
-  //   );
-  //   if (!existProductInCart) {
-  //     dispatch(setCartItems(productDetail));
-  //     localStorage.setItem("cartItems", JSON.stringify([...JSON.parse(localStorage.getItem("cartItems")), productDetail]))
-  //     navigate(`../cart/${id}`);
-  //   } else {
-  //     alert("محصول مورد نظر قبلا انتخاب شده است");
-  //     navigate("../");
-  //   }
-  // };
+  
   const addToCartHandler = () => {
     const existProductInCart = cartItems.find(
       (item) => item._id === productDetail._id
