@@ -3,14 +3,17 @@ import axios from "axios";
 import { Col, Row } from "react-bootstrap";
 
 import Product from "../components/Product/Product";
+import { useDispatch, useSelector } from "react-redux";
+import { setProductList } from "../redux/productListSlice";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
+  const productList = useSelector((state) => state.productList);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const sendRequest = async () => {
       const response = await axios.get("http://localhost:8000/api/products");
-      if (response.data.length !== 0) setProducts(response.data);
+      if (response.data.length !== 0) dispatch(setProductList(response.data));
     };
     sendRequest();
   }, []);
@@ -19,8 +22,8 @@ const Home = () => {
     <div>
       <h1>محصولات</h1>
       <Row>
-        {products.length !== 0 &&
-          products.map((item) => {
+        {productList.length !== 0 &&
+          productList.map((item) => {
             return (
               <Col key={item._id} sm={12} md={6} lg={3}>
                 <Product product={item} />
